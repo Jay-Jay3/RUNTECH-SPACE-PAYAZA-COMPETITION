@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_smorest import Api
 from dotenv import load_dotenv
+from flask_cors import CORS
 
 load_dotenv()
 
@@ -36,7 +37,21 @@ def create_app():
     api = Api(app)
 
     # Register the routes using smorest
-    # api.register_blueprint()
+    # from app.routes.disputes import payaza as disputesBP
+    from app.routes.escrow import payaza as escrowBP
+    from app.routes.payout import payaza as payoutsBP
+    from app.routes.transactions import payaza as transBP
+    from app.routes.user import payaza as userBP
+
+
+    api.register_blueprint(escrowBP)
+    api.register_blueprint(payoutsBP)
+    api.register_blueprint(transBP)
+    api.register_blueprint(userBP)
+    # api.register_blueprint(disputesBP)
+
+
+    CORS(app)
 
     @app.route("/")
     def home():
