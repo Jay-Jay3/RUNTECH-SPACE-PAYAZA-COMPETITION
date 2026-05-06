@@ -8,7 +8,7 @@ import uuid_utils as uuid
 payaza = Blueprint("user", __name__, "This is for all routes that lead to the webapi")
 pay_Aza = PayazaServices()
 
-@payaza.route("/user/initiate-card-payment", methods=["POST"])
-@unified_data
-def initiate_payment(data):
-    return
+# @payaza.route("/user/initiate-card-payment", methods=["POST"])
+# @unified_data
+# def initiate_payment(data):
+#     return
