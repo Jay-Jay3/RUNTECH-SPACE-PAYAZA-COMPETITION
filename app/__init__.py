@@ -41,13 +41,13 @@ def create_app():
     from app.routes.escrow import payaza as escrowBP
     from app.routes.payout import payaza as payoutsBP
     from app.routes.transactions import payaza as transBP
-    from app.routes.user import payaza as userBP
+    # from app.routes.user import payaza as userBP
 
 
     api.register_blueprint(escrowBP)
     api.register_blueprint(payoutsBP)
     api.register_blueprint(transBP)
-    api.register_blueprint(userBP)
+    # api.register_blueprint(userBP)
     # api.register_blueprint(disputesBP)
 
 
