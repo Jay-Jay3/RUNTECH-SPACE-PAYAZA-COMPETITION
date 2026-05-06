@@ -33,6 +33,14 @@ def create_app():
     # importing modals
     from app import modal
 
+    #configuring smorest(SWAGGER_UI)
+    app.config["API_TITLE"]= "RUNACOS API"
+    app.config["API_VERSION"]= "v1"
+    app.config["OPENAPI_VERSION"]= "3.0.3"
+    app.config["OPENAPI_URL_PREFIX"]= "/"
+    app.config["OPENAPI_SWAGGER_UI_PATH"]= "/docs"
+    app.config["OPENAPI_SWAGGER_UI_URL"]= "https://unpkg.com/swagger-ui-dist@3.25.0/"
+
     # initialise smorest api
     api = Api(app)
 
