@@ -62,19 +62,24 @@ class UserServices:
         return user
     
     def create_vendor(self, details):
-        user = User.query.filter_by(email=details['email'])
+        user = User.query.filter_by(email=details['business_email'])
         if not user:
             return {"error": "User does not exists"}
+        
+        if Vendor.query.filter_by(business_name=details['business_name'], business_email=details['business_email']).first():
+            return {"error": "Business already exists"}
+        
         
         new_user = Vendor(   
                     business_name=details['business_name'],
                     business_email=details['business_email'],
                     business_address=details['business_address'],
                     business_phone=details['business_phone'],
-                    account_number=details['business_number'],
+                    account_number=details['account_number'],
                     account_name=details['account_name'],
+                    currency=details['currency'],
                     bank_code=details['bank_code'],
-                    user_id=user.id
+                    user_id=details['user_id']
         )
         db.session.add(new_user)
         db.session.commit()

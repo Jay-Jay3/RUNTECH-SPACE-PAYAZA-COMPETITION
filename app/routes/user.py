@@ -27,7 +27,6 @@ def register(data):
     if User.query.filter_by(email=email).first():
         return jsonify({"error": "User already exists"}), 409
     
-
     user = userService.create_user(data)
 
     return jsonify({
@@ -66,12 +65,13 @@ def protected():
 @payaza.route('/api/register/vendor', methods=['POST'])
 @unified_data
 def register_vendor(data):
-    detail = {data['account_number'], data['bank_code']}
-    if not is_verify_seller_bank(detail):
-        return jsonify({
-            "error": "Can not create business, Invalid bank details",
-            "message": "Input valid bank account"
-        })
+    print(type(data))
+    detail = {"account_number":data['account_number'], "bank_code": data['bank_code']}
+    # if not is_verify_seller_bank(detail):
+    #     return jsonify({
+    #         "error": "Can not create business, Invalid bank details",
+    #         "message": "Input valid bank account"
+    #     })
     vendor = Vendor.query.filter(
         (Vendor.business_name == data['business_name']) | 
         (Vendor.business_email == data['business_email'])
@@ -81,4 +81,11 @@ def register_vendor(data):
             "error": "This data exists",
             "message": "This data exists: your business name and email"
         })
+    vendor = userService.create_vendor(data)
+    return jsonify({
+        "message": "User created successfully",
+        "id": vendor.id,
+        "email": vendor.business_email,
+        "name": vendor.business_name
+        }), 201
 
