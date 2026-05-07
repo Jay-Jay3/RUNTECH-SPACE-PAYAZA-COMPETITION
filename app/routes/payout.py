@@ -138,7 +138,6 @@ def release_escrow(escrow_id):
     return jsonify(result)
 
 
-# @payaza.route('/verify-seller-bank', methods=['POST'])
 def is_verify_seller_bank(data):
     response = pay_Aza.account_name_enquiry(
         data['bank_code'], 

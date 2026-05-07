@@ -17,13 +17,14 @@ userService = UserServices()
 @unified_data
 def register(data):
     # data = request.get_json()
-    username = data.get('username')
+    name = data.get('name')
+    email = data.get('email')
     password = data.get('password')
 
-    if not username or not password:
+    if not name or not password:
         return jsonify({"error": "Missing credentials"}), 400
 
-    if User.query.filter_by(username=username).first():
+    if User.query.filter_by(email=email).first():
         return jsonify({"error": "User already exists"}), 409
 
     user = userService.create_user(data)
