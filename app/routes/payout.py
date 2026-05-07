@@ -17,7 +17,22 @@ def disburse_funds(escrow_id):
     # getting user details
     seller = User.query.filter_by(id=vendor.user_id)
 
+    if escrow.status != "READY FOR PAYOUT":
+        return jsonify({
+            "error": "Escrow conditions not fully net"
+        })
+
+    if Payout.query.filter_by(escrow_id=escrow_id, status="SUCCESSFUL").first():
+        return jsonify({"error": "Payout already completed for this escrow"}), 400
+
     # verify bank details. pls confirm well later
+    data = {vendor.account_number, vendor.bank_code}
+    if not is_verify_seller_bank(data):
+        return jsonify({
+            "error": "Invalid Account Number",
+            "message": "Can not process the payout"
+        })
+
     tx_ref = f"PAY-{escrow_id}-{uuid.uuid7().hex[:6]}"
     payload = {
         "transaction_type": "mobile_money",
@@ -62,7 +77,6 @@ def disburse_funds(escrow_id):
     db.session.commit()
 
     return jsonify(response)
-
 
 def release_escrow(escrow_id):
     escrow = Escrow.query.get_or_404(escrow_id)
@@ -122,5 +136,16 @@ def release_escrow(escrow_id):
         db.session.commit()
     
     return jsonify(result)
+
+
+# @payaza.route('/verify-seller-bank', methods=['POST'])
+def is_verify_seller_bank(data):
+    response = pay_Aza.account_name_enquiry(
+        data['bank_code'], 
+        data['account_number']
+        )
+    if response.get("response_code") == 200 and response.get("response_message") == "Approved or completely successful":
+        return True
+    return False
 
 

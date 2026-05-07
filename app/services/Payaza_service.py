@@ -159,7 +159,7 @@ class PayazaServices:
         response = requests.get(url, headers=self.headers)
         return response.json()
 
-
+    
 
 
 

@@ -1,10 +1,11 @@
 from flask import request, jsonify
 from flask_smorest import Blueprint
-from app.modal import db, Transaction, Escrow, User
+from app.modal import db, Transaction, Escrow, User, Vendor
 from flask_login import login_user, logout_user, login_required, current_user
 from app.services.Payaza_service import PayazaServices
 from app.services.user_svc import UserServices
 from app.routes import unified_data
+from app.routes.payout import is_verify_seller_bank
 import uuid_utils as uuid
 
 payaza = Blueprint("user", __name__, "This is for all routes that lead to the user functionality")
@@ -25,11 +26,11 @@ def register(data):
     if User.query.filter_by(username=username).first():
         return jsonify({"error": "User already exists"}), 409
 
-    use = userService.create_user(data)
+    user = userService.create_user(data)
 
     return jsonify({
         "message": "User created successfully",
-        "user": use
+        "user": user
         }), 201
 
 @payaza.route('/api/login', methods=['POST'])
@@ -57,3 +58,23 @@ def protected():
         "message": "You are in the protected area",
         "user": current_user.to_dict()
     })
+
+@payaza.route('/api/register/vendor', methods=['POST'])
+@unified_data
+def register_vendor(data):
+    detail = {data['account_number'], data['bank_code']}
+    if not is_verify_seller_bank(detail):
+        return jsonify({
+            "error": "Can not create business, Invalid bank details",
+            "message": "Input valid bank account"
+        })
+    vendor = Vendor.query.filter(
+        (Vendor.business_name == data['business_name']) | 
+        (Vendor.business_email == data['business_email'])
+    ).first()
+    if vendor:
+        return jsonify({
+            "error": "This data exists",
+            "message": "This data exists: your business name and email"
+        })
+

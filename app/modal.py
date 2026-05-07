@@ -33,7 +33,7 @@ class Vendor(db.Model):
 
     id = db.Column(db.String, nullable=False, primary_key=True, default=lambda:str(uuid7()), unique=True)
 
-    business_name = db.Column(db.String, nullable=False)
+    business_name = db.Column(db.String, nullable=False, unique=True)
     business_email = db.Column(db.String, nullable=False, unique=True)
     business_address = db.Column(db.String, nullable=False)
     business_phone = db.Column(db.String, nullable=False)
@@ -69,6 +69,7 @@ class Transaction(db.Model):
     status = db.Column(db.String,default="pending")
     amount = db.Column(db.Numeric(12, 2), nullable=False)
     currency = db.Column(db.String, nullable=False)
+    method = db.Column(db.String, nullable=False)
     raw_response = db.Column(db.JSON)
 
 class Payout(db.Model):
