@@ -27,7 +27,6 @@ def register(data):
     if User.query.filter_by(email=email).first():
         return jsonify({"error": "User already exists"}), 409
     
-    data['is_vendor']= data['is_vendor'].lower()
 
     user = userService.create_user(data)
 
