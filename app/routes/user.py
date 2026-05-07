@@ -33,7 +33,9 @@ def register(data):
 
     return jsonify({
         "message": "User created successfully",
-        "user": user
+        "id": user.id,
+        "email": user.email,
+        "name": user.name
         }), 201
 
 @payaza.route('/api/login', methods=['POST'])
