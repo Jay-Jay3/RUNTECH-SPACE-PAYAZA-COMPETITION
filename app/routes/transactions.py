@@ -119,7 +119,7 @@ def pay_into_wallet(data):
 
 
 # Manual checking from the user
-@payaza.route("verify-payment/<transaction_ref>", methods=['GET'])
+@payaza.route("/verify-payment/<transaction_ref>", methods=['GET'])
 def verify_payment(transaction_ref):
     tx = Transaction.query.filter_by(reference=transaction_ref).first_or_404()
 

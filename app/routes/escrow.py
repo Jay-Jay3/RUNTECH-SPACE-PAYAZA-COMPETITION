@@ -13,7 +13,7 @@ pay_Aza = PayazaServices()
 @payaza.route('/create-escrow', methods=["POST"])
 @unified_data
 def create_escrow(data):
-    escrow_id = data.get('escrow_id')
+    # escrow_id = data.get('escrow_id')
     
     # creating a new escrow
     new_escrow = Escrow(
