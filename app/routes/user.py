@@ -22,7 +22,7 @@ def register(data):
     password = data.get('password')
 
     if not name or not password:
-        return jsonify({"error": "Missing credentials"}), 400
+        return jsonify({"error": "Missing credentials"}), 408
 
     if User.query.filter_by(email=email).first():
         return jsonify({"error": "User already exists"}), 409
