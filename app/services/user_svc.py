@@ -12,7 +12,7 @@ class UserServices:
         self.table = "users"
     
     def create_user(self, details):
-        user = User.query.filter_by(email=details['email'])
+        user = User.query.filter_by(email=details['email']).first()
         if user:
             return {"error": "User already exists"}
         
@@ -23,6 +23,7 @@ class UserServices:
                     address=details['address'],
                     is_vendor=details['is_vendor'],
         )
+        new_user.set_password(details['password'])
         db.session.add(new_user)
         db.session.commit()
         return new_user
@@ -53,6 +54,12 @@ class UserServices:
             "message": "User deleted successfully",
             "user": user
         }
+    
+    def find_user(self, email):
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            return {"error": "User not found"}
+        return user
     
     def create_vendor(self, details):
         user = User.query.filter_by(email=details['email'])
