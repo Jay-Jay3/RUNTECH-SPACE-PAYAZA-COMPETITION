@@ -25,7 +25,7 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password_hash, password)
     
     def to_dict(self):
-        return {"id": self.id, "name": self.username, "email": self.email, "is_vendor":self.is_vendor}
+        return {"id": self.id, "name": self.name, "email": self.email, "is_vendor":self.is_vendor}
 
 
 class Vendor(db.Model):
