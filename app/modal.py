@@ -41,6 +41,7 @@ class Vendor(db.Model):
     account_number = db.Column(db.String, nullable=False)
     account_name = db.Column(db.String, nullable=False)
     bank_code = db.Column(db.String, nullable=False)
+    currency = db.Column(db.String, nullable=False)
 
     user_id = db.Column(db.String, db.ForeignKey('users.id'), nullable=False)
     rating = db.Column(db.Numeric(3, 2), nullable=True)

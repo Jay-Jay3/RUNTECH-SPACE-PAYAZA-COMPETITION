@@ -37,11 +37,11 @@ def disburse_funds(escrow_id):
     payload = {
         "transaction_type": "mobile_money",
             "service_payload": {
-                "payout_amount": escrow.amount,
+                "payout_amount": billables(escrow.amount,vendor.currency, escrow.currency),
                 "transaction_pin": 218056,
                 "account_reference": tx_ref,
                 "country": "NGA",
-                "currency": "MGN",
+                "currency": vendor.currency,
                 "payout_beneficiaries": [
                     {
                         "credit_amount": escrow.amount,
@@ -147,5 +147,13 @@ def is_verify_seller_bank(data):
     if response.get("response_code") == 200 and response.get("response_message") == "Approved or completely successful":
         return True
     return False
+
+def billables(amount, payCurrency, transCurrency):
+    if payCurrency == transCurrency:
+        new_amount = amount*(103/100)
+        new_amount = new_amount*(101.5/100)
+    else:
+        new_amount = amount*(103/100)
+    return new_amount
 
 

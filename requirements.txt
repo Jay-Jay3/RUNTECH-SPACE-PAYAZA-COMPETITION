@@ -9,6 +9,7 @@ dotenv==0.9.9
 Flask==3.1.3
 flask-cors==6.0.2
 Flask-Login==0.6.3
+flask-marshmallow==1.5.0
 Flask-Migrate==4.1.0
 flask-smorest==0.47.0
 Flask-SQLAlchemy==3.1.1
